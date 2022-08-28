@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+      var baseurl = "https://rest-api-sheet-qfpivqmm4q-uc.a.run.app/4";
+      function loadPersons(){
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET",baseurl,true);
+        //var tblerror = "<table><tr><td>ERROR</td></tr></table>"
+        xmlhttp.onreadystatechange = function() {
+          if(xmlhttp.readyState ===4 && xmlhttp.status ===200){
+            var persons = JSON.parse(xmlhttp.responseText);
+            var tbltop = `<table border="1" align="center" width="50%">
+                <tr><th>Id</th><th>Name</th><th>Amount</th><th>Unit</th><th>Warehouse</th></tr>`;
+            //main table content we fill from data from the rest call
+            var main ="";
+              main += "<tr><td>"+persons.data.ingredient.id+"</td><td>"+persons.data.ingredient.name+"</td><td>"+persons.data.ingredient.amount+"</td><td>"+persons.data.ingredient.unit+"</td><td>"+persons.data.ingredient.warehouseLocation+"</td></tr>";
+            var tblbottom = "</table>";
+            var tbl = tbltop + main + tblbottom;
+            document.getElementById("personinfo").innerHTML = tbl;
+          }
+          else
+          {}
+        };
+        xmlhttp.send();
+      }
+      window.onload = function(){
+        loadPersons();
+      }
+    </script>
+
+    <style>
+    .fakeimg {
+    height: 200px;
+    background: #aaa;
+    }
+    </style>
+
+    <title>Solution Portfolio - Johnny Benitez's Personal Web Site</title>
+
+</head>
+
+<body>
+
+    <div class="jumbotron text-center" style="margin-bottom:0">
+      <h1>Solution Portfolio Bootstrap Page</h1>
+      <p>Resize this responsive page to see the effect!</p>
+    </div>
+
+
+    <div class="container" style="margin-top:30px">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3>Using a HTML page to retrieve data from Google Sheets</h3>
+          <p> This section demonstrates the ability to get inventory data from <a href="https://docs.google.com/spreadsheets/d/1d_-5gkzduy4Opv6m_KWIHJaMIUmyT1d6odExVuD_SSk/edit?usp=sharing">Google Sheets</a> in real time via a REST API Service on that is deployed using Google Cloud RUN </p>
+
+        <div class="col" id="personinfo">
+         </div>
+
+        </div>
+      </div>
+
+    </div>
+
+</body>
+</html>
